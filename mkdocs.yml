@@ -1,23 +1,23 @@
 # Project information
-site_name: RTEU Course Notes Templates
+site_name: Introduction to AOSP
 docs_dir: docs  # Where to find the English markdown files
 site_dir: site  # Where to put the English HTML files
-site_author: 'Asst. Prof. Dr. Uğur CORUH'
-site_url: 'https://ucoruh.github.io/course-note-template/'
+site_author: 'Beru Hinode on behalf of Bedirhan KURT'
+site_url: 'https://windowz414.com/android_rteu_notes_introduction-to-aosp/'
 
 site_description_en: >-
-    Course Notes Templates
+    Course notes for introducing Android Open Source Project, in short AOSP, Google's project to provide the Android source to everyone wanting to either manufacture a new device or provide updates to existing one.
 
 site_description_tr: >-
-    Ders Notu Şablonu
+    Android Açık Kaynak Projesini, kısaca AOSP, Google'ın yeni bir cihaz üretmek ya da mevcut olana güncelleme vermek isteyen herkese Android kaynağını sağlamak amaçlı projesi, tanıtmak için ders notları.
 
 # Repository
 repo_name: 'GitHub'
-repo_url: 'https://github.com/ucoruh/course-note-template'
+repo_url: 'https://github.com/windowz414/android_rteu_notes_introduction-to-aosp.git'
 edit_uri: ""
 
 # Copyright
-copyright: Copyright &copy; 2019 - 2022 Asst. Prof. Dr. Uğur CORUH
+copyright: Copyright &copy; 2019 - 2022 Asst. Prof. Dr. Uğur CORUH, Copyright (C) 2022 Beru Hinode in behalf of Bedirhan KURT. All Rights Reserved.
 
 #theme:
 #    name: material
@@ -67,17 +67,19 @@ theme:
     # - toc.integrate
     
   palette:
-    - scheme: default
-      primary: lime
-      accent: lime
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: white
+      accent: deep purple
       toggle:
-        icon: material/toggle-switch
+        icon: material/weather-night
         name: Switch to dark mode
-    - scheme: slate
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
       primary: blue grey
-      accent: blue grey
+      accent: pink
       toggle:
-        icon: material/toggle-switch-off-outline
+        icon: material/weather-sunny
         name: Switch to light mode
   
 #  palette:
@@ -130,27 +132,15 @@ extra:
       analytics: Google Analytics
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/ucoruh
-    - icon: fontawesome/brands/bitbucket
-      link: https://bitbucket.org/ucoruh/
-    - icon: fontawesome/regular/compass
-      link: https://www.scopus.com/authid/detail.uri?authorId=57218950743
-    - icon: fontawesome/regular/id-card
-      link: https://dblp.org/pid/230/0394.html
-    - icon: fontawesome/brands/docker
-      link: https://hub.docker.com/u/ucoruh/
-    - icon: fontawesome/brands/orcid
-      link: https://orcid.org/my-orcid?orcid=0000-0003-4193-8401
-    - icon: fontawesome/brands/linkedin
-      link: https://www.linkedin.com/in/ugurcoruh/
-    - icon: fontawesome/regular/moon
-      link: https://publons.com/researcher/1540204/ugur-coruh/
-    - icon: fontawesome/brands/google
-      link: https://scholar.google.com/citations?user=KIU4ltMAAAAJ&hl=tr
-    - icon: fontawesome/regular/clipboard
-      link: https://avesis.erdogan.edu.tr/ugur.coruh
+      link: https://github.com/windowz414
     - icon: fontawesome/regular/user-circle
-      link: https://www.ugurcoruh.com/
+      link: https://windowz414.com/
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/WindowZ414
+    - icon: fontawesome/brands/telegram
+      link: https://t.me/stellastructure
+    - icon: fontawesome/brands/discord
+      link: https://windowz414.com/discord
             
 # Extensions
 markdown_extensions:
@@ -208,32 +198,18 @@ plugins:
         en:
           name: English
           build: true
-          site_name: "RTEU Course Notes Templates (en)"
+          site_name: "Introduction to AOSP"
         tr:
           name: Türkçe
           build: true
-          site_name: "RTEU Ders Notu Şablonu (tr)"
+          site_name: "AOSP'ye Giriş"
       nav_translations:
         tr:
           Home: 'Ana Sayfa'
           Syllabus: 'Ders İzlencesi'
           Course Modules: 'Ders Modülleri'
-          Week-1 (Sample-1): 'Hafta-1 (Örnek-1)'
-          Week-2 (Sample-2): 'Hafta-2 (Örnek-1)'
-          Week-3 (Sample-3): 'Hafta-3 (Örnek-1)'
-          Week-4 (Sample-4): 'Hafta-4 (Örnek-1)'
-          Week-5 (Sample-5): 'Hafta-5 (Örnek-1)'
-          Week-6 (Sample-6): 'Hafta-6 (Örnek-1)'
-          Week-7 (Sample-7): 'Hafta-7 (Örnek-1)'
-          Week-8 (Midterm): 'Hafta-8 (Vize)'
-          Week-9 (Sample-9): 'Hafta-9 (Örnek-1)'
-          Week-10 (Sample-10): 'Hafta-10 (Örnek-1)'
-          Week-11 (Sample-11): 'Hafta-11 (Örnek-1)'
-          Week-12 (Sample-12): 'Hafta-12 (Örnek-1)'
-          Week-13 (Sample-13): 'Hafta-13 (Örnek-1)'
-          Week-14 (Sample-14): 'Hafta-14 (Örnek-1)'
-          Week-15 (Sample-15): 'Hafta-15 (Örnek-1)'
-          Week-16 (Final): 'Hafta-16 (Final)'
+          Introduction of AOSP and Its History: 'AOSP Tanıtımı ve Tarihçesi'
+          Sources and Compilation Steps: 'Kaynak Kodları ve Derleme Adımları'
           License: 'Lisans'
           Resume: 'Özgeçmiş'
           Changelog: 'Geçmiş'
@@ -287,22 +263,8 @@ nav:
   - Home: index.md
   - Syllabus: syllabus/syllabus.md
   - Course Modules:
-    - Week-1 (Sample-1): week-1/week-1.md
-    - Week-2 (Sample-2): week-2/week-2.md
-    - Week-3 (Sample-3): week-3/week-3.md
-    - Week-4 (Sample-4): week-4/week-4.md
-    - Week-5 (Sample-5): week-5/week-5.md
-    - Week-6 (Sample-6): week-6/week-6.md
-    - Week-7 (Sample-7): week-7/week-7.md
-    - Week-8 (Midterm): week-8/week-8-midterm.md
-    - Week-9 (Sample-9): week-9/week-9.md
-    - Week-10 (Sample-10): week-10/week-10.md 
-    - Week-11 (Sample-11): week-11/week-11.md 
-    - Week-12 (Sample-12): week-12/week-12.md
-    - Week-13 (Sample-13): week-13/week-13.md
-    - Week-14 (Sample-14): week-14/week-14.md
-    - Week-15 (Sample-15): week-15/week-15.md
-    - Week-16 (Final): week-16/week-16-final.md
+    - Introduction of AOSP and Its History: week-1/week-1.md
+    - Sources and Compilation Steps: week-2/week-2.md
   - License: license.md
   - Resume: resume/index.md
   - Changelog: changelog/index.md
