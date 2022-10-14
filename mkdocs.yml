@@ -212,7 +212,7 @@ plugins:
           Sources and Compilation Steps: 'Kaynak Kodları ve Derleme Adımları'
           License: 'Lisans'
           Resume: 'Özgeçmiş'
-          Changelog: 'Geçmiş'
+          Changelog: 'Sürüm Geçmişi'
   - git-revision-date-localized
   - minify:
       minify_html: false
