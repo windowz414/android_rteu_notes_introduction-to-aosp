@@ -11,7 +11,7 @@ paginate: true
 backgroundColor: #fff
 backgroundImage: url('https://birchtree.nyc3.digitaloceanspaces.com/2021/materialyou/desktop/material_you_desktop_1.png')
 header: 'Introduction to AOSP'
-footer: '![height:50px](http://erdogan.edu.tr/Images/Uploads/MyContents/L_379-20170718142719217230.jpg) RTEU CE204 Week-1'
+footer: ''
 title: "Introduction to AOSP"
 author: "Author: B. KURT"
 date:
