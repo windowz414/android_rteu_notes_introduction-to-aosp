@@ -9,13 +9,13 @@ style: |
 _class: lead
 paginate: true
 backgroundColor: #fff
-backgroundImage: url('https://marp.app/assets/hero-background.svg')
-header: 'Sample Course Name'
-footer: '![height:50px](http://erdogan.edu.tr/Images/Uploads/MyContents/L_379-20170718142719217230.jpg) RTEU CE204 Week-2'
-title: "Sample Course Name"
-author: "Author: Asst. Prof. Dr. Uğur CORUH"
+backgroundImage: url('https://birchtree.nyc3.digitaloceanspaces.com/2021/materialyou/desktop/material_you_desktop_1.png')
+header: 'Introduction to AOSP'
+footer: ''
+title: "Introduction to AOSP"
+author: "Author: B. KURT"
 date:
-subtitle: "Sample Course Module Name"
+subtitle: "Preparing to Build and Building AOSP"
 geometry: "left=2.54cm,right=2.54cm,top=1.91cm,bottom=1.91cm"
 titlepage: true
 titlepage-color: "FFFFFF"
@@ -35,8 +35,8 @@ disable-header-and-footer: false
 header-left:
 header-center:
 header-right:
-footer-left: "© Asst. Prof. Dr. Uğur CORUH"
-footer-center: "License: WTFPL"
+footer-left: "(C)Beru Hinode on behalf of Bedirhan KURT."
+footer-center: "License: GPL-2.0-only"
 footer-right:
 subparagraph: true
 lang: en-US 
@@ -50,11 +50,11 @@ math: katex
 
 <!-- paginate: false -->
 
-## Sample Course Name
+## Introduction to AOSP
 
-### Week-2 (Sample Course Module Name)
+### Week-2 (Preparing to Build and Building AOSP)
 
-#### Spring Semester, 20XX-20XX
+#### Installing Required Packages, Getting the Source and Building
 
 Download [DOC](week-2.en.md_doc.pdf), [SLIDE](week-2.en.md_slide.pdf), [PPTX](week-2.en.md_slide.pptx)
 
@@ -66,166 +66,237 @@ Download [DOC](week-2.en.md_doc.pdf), [SLIDE](week-2.en.md_slide.pdf), [PPTX](we
 
 ### Outline
 
-- Sample Outline
-- Sample Outline
-- Sample Outline
-- Sample Outline
+- Gathering maximum set of packages and configuration required for a proper AOSP build
+- Installing binaries that aren't usually present on distro repositories
+- Basics of `repo` tool
+- Gathering a custom ROM (LineageOS) source and building it for your device
 
 ---
 
-## **Sample Topic**
+### Preparing to Build
+
+Of course before we can build this piece of wonderful software named AOSP, we need to first gather a huge set of packages we need to install. Many distributions have different guides about this on their documentations. However, Google supports Debian-based ones strictly. Also keep in mind that **ANY KINDS OF SUBSYSTEMS LIKE WSL WILL _NOT_ WORK!** You will **STRICTLY** need a buffed VM with Linux on it or a Linux installation on your own PC as AOSP notes - "You must use Linux; building under either MacOS or Windows isn't supported". Cloud VMs also work but might make things like file transfer hard depending on your Internet connection and availability.
 
 ---
 
-### Sample Topic
+Now, let's come to package installations.
 
-- **What is Lorem Ipsum?**
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-  - when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, 
-    - but also the leap into electronic typesetting, remaining essentially unchanged. 
-      - It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. 
+Simply put, this command will install all the tools you might need on various distributions of Android singlehandedly (except the `repo` tool, we'll install this discretely). Most of these are already present on Android source documentation.
 
----
-
-### Sample Images-1
-
-- **What is Lorem Ipsum?**
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-
-![center h:400px](assets/sample-1.png)
+```bash
+sudo apt-get install git-core gnupg flex bison build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 libncurses5 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z1-dev libgl1-mesa-dev libxml2-utils xsltproc unzip fontconfig xmlstarlet python3 python-is-python3
+```
 
 ---
 
-### Sample Images-2
+### `repo` Tool
 
-- **What is Lorem Ipsum?**
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-
-![bg right:50% h:400px](assets/sample-1.png)
+`repo` is a CLI tool developed by Google in Python to provide an easy way to clone all repositories to build something from source. It works in manifest basis and has 2 different manifest handlers: "Upstream manifest" and "Local manifest"
 
 ---
 
-### Sample Images-3
-
-- **What is Lorem Ipsum?**
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-
-![bg left:50% h:400px](assets/sample-1.png)
+Upstream manifest is an entire Git repo including the default manifest as well as all other linked manifests needed to clone all repositories needed for a distribution to be built. The common tree convention is that there's a README providing little oversight on how to gather the sources (and sometimes how to build it too), a `default.xml` file that has core repositories from upstream AOSP and `<include />` tags to include more manifests in the same repository, a `snippets` folder that includes additional manifests that do the modifications over the AOSP manifest by `<remove-project />` and other tags processed by `repo` tool, and sometimes `assets` folder that includes all other assets for the README. You initialize your local directory with it.
 
 ---
 
-### Sample Images-4
-
-- **What is Lorem Ipsum?**
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-
-![bg h:400px](assets/sample-1.png)
+Local manifest on contrary is a single manifest-ie that has additional and/or device-specific repository modifications that aren't usually provided by upstream manifest. You place these into `.repo/local_manifests` in your local directory after initializing upstream manifest. Pretty much same tags and parameters are processed by `repo` tool and appended into the generated manifest that can be viewed by `repo manifest`.
 
 ---
 
-### Sample Images-5
+### Installing `repo`
 
-- **What is Lorem Ipsum?**
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+Since this piece of tool doesn't exist on all Linux distros or otherwise usually outdated, Google provides us a generic piece of commands to install it manually. These usually tear down into this little script;
 
-![bg left:50% h:800px](assets/sample-1.png)
-![bg left:50% h:800px](assets/sample-2.png)
+```bash
+export REPO=$(mktemp /tmp/repo.XXXXXXXXX)
+curl -o ${REPO} https://storage.googleapis.com/git-repo-downloads/repo
+gpg --recv-key 8BB9AD793E8E6153AF0F9A4416530D5E920F5C65
+curl -s https://storage.googleapis.com/git-repo-downloads/repo.asc | gpg --verify - ${REPO} && sudo install -m 755 ${REPO} /bin/repo
+```
 
----
-
-### Sample Images-6
-
-- **What is Lorem Ipsum?**
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-
-![bg left:50% h:300px](assets/sample-1.png)
-![bg left:50% h:500px](assets/sample-2.png)
+This first downloads the binary from Google API server, verifies it by checking against Google's key and then globally installs it.
 
 ---
 
-###  Latex Sample-1
+### Initializing repository
 
-$$
-\begin{align}
-  \begin{aligned}
-  \text{compute } m[i,i+1] \\
-  \underbrace{ \{ m[1,2],m[2,3], \dots ,m[n-1,n]\} }_{(n-1) \text{ values}}
-  \end{aligned}
-    & \begin{cases}
-    & \ell=2  \\
-    & \text{for } i=1 \text{ to } n-1 \text{ do } \\
-    & \quad m[i,i+1]=\infty \\
-    & \quad \quad \text{for } k=i \text{ to } i \text{ do } \\
-    &  \quad \quad \quad \vdots
-    \end{cases} \\
-  \begin{aligned}
-  \text{compute } m[i,i+2] \\
-  \underbrace{ \{ m[1,3],m[2,4], \dots ,m[n-2,n]\} }_{(n-2) \text{ values}}
-  \end{aligned}
-    & \begin{cases}
-    & \ell=3  \\
-    & \text{for } i=1 \text{ to } n-2 \text{ do } \\
-    & \quad m[i,i+2]=\infty \\
-    & \quad \quad \text{for } k=i \text{ to } i+1 \text{ do } \\
-    & \quad \quad \quad \vdots
-    \end{cases} \\
-  \begin{aligned}
-  \text{compute } m[i,i+3] \\
-  \underbrace{ \{ m[1,4],m[2,5], \dots ,m[n-3,n]\} }_{(n-3) \text{ values}}
-    \end{aligned}
-    & \begin{cases}
-    & \ell=4  \\
-    & \text{for } i=1 \text{ to } n-3 \text{ do } \\
-    & \quad m[i,i+3]=\infty \\
-    & \quad \quad \text{for } k=i \text{ to } i+2 \text{ do } \\
-    & \quad \quad \quad \vdots
-    \end{cases}
-\end{align}
-$$
+`repo init` is the one we need for this part. The parameters we must pass are `-u <url>` and `-b <branch or tag>`. To get these informations, pretty much all ROMs have a repository that has one of these names which you should check around: `android`, `android_manifest`, `manifest`, `platform_manifest`
+
+There are also some parameters that will disable some checks or otherwise minimize the source size by trimming out branches, Git history and such. The command I personally use when initializing a repository is like this;
+
+```bash
+repo init -u https://github.com/LineageOS/android -b lineage-19.1 --depth=1 --no-tags --no-clone-bundle --current-branch --config-name
+```
 
 ---
 
-### Latex Sample-2
+This initializes repositories for an Android distribution named LineageOS, which is what we use when we need an Android distribution that doesn't ship Google apps and is easy to maintain unofficially. The extra parameters can be torn down to this;
 
-$$
-\begin{align*}
-& \text{OPTIMAL-BST-COST} (p, n) \\
-& \quad \text{for} \ i \leftarrow 1 \ \text{to} \ n \ \text{do} \\
-& \qquad c[i, i-1] \leftarrow 0 \\
-& \qquad c[i, i] \leftarrow p[i] \\
-& \qquad R[i, j] \leftarrow i \\
-& \quad PS[1] \leftarrow p[1] \Longleftarrow PS[i] \rightarrow  \text{ prefix-sum } (i): \text{Sum of all} \ p[j] \ \text{values for}  \ j \leq i
- \\
-& \quad \text{for} \ i \leftarrow 2 \ \text{to} \ n \ \text{do} \\
-& \qquad PS[i] \leftarrow p[i] + PS[i-1]  \Longleftarrow  \text{compute the prefix sum} \\
-& \quad \text{for} \ d \leftarrow 1 \ \text{to} \ n−1 \ \text{do}   \Longleftarrow  \text{BSTs with} \ d+1 \ \text{consecutive keys} \\
-& \qquad \text{for} \  i \leftarrow 1 \ \text{to} \ n – d \ \text{do} \\
-& \qquad \quad j \leftarrow i + d \\
-& \qquad \quad c[i, j] \leftarrow \infty \\
-& \qquad \quad \text{for} \ r \leftarrow i \ \text{to} \ j \ \text{do} \\
-& \qquad \qquad q \leftarrow min\{c[i,r-1] + c[r+1, j]\} +  PS[j] – PS[i-1]\} \\
-& \qquad \qquad \text{if} \ q < c[i, j] \ \text{then} \\
-& \qquad \qquad \quad c[i, j]  \leftarrow q \\
-& \qquad \qquad \quad R[i, j] \leftarrow r \\
-& \quad \text{return} \ c[1, n], R
-\end{align*}
-$$
+- Initializes `lineage-19.1` branch.
+
+- Clones only single revision of all repositories - Shallow repository, no history is generated.
+
+- Doesn't clone tags. This is useful when you have nothing to do with tags opened on repositories.
+
+- Doesn't use clone bundles, kind of saves storage space.
+
+- Clones only the branch specified in the manifest instead of all branches.
+
+- Allows user to configure their name and email when initializing repo instead of using the one in global Git configuration.
 
 ---
 
-**TODO** UPDATE CONTENT FOR YOUR COURSE NOTES
-
---- 
-
-## References
-
-- https://avesis.erdogan.edu.tr/ugur.coruh
-- https://www.linkedin.com/in/ugurcoruh/
-- https://www.hindawi.com/journals/scn/2018/6563089/ 
-- https://dl.acm.org/doi/abs/10.1145/3410352.3410836
-- https://www.sciencedirect.com/science/article/abs/pii/S2214212621002623 
-
+Once the repository is initialized, we'll also need to clone repositories that are made for your own device. These repositories are usually just `device/brand/codename`, `kernel/brand/chipset` and `vendor/brand`. For example, I'll be building this for Redmi Note 10S, which has the codename of `rosemary`. If you want to learn yours, you can search over GitHub with your device brand and model.
 
 ---
 
-$End-Of-Week-2-Module$
+![This is a sample manifest for cloning all dependencies for RN10S.](assets/sample-manifest.png)
+
+---
+
+### Getting All Repositories for Building
+
+Now that we're set up, all we need to do is a single command to sync everything up, which might take too long depending on your Internet connection speed;
+
+```bash
+repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j$(nproc --all)
+```
+
+This command can be torn down to this;
+
+- Clones only current branch.
+
+- Doesn't use clone bundles.
+
+- Doesn't clone tags.
+
+- Optimizes fetching by using different methods.
+
+- Prunes the repositories that have been removed after changing something in manifest.
+
+- Forcefully syncs. This means that if remote for a repository has been changed in manifest, it first removes the old repository and clones the new one.
+
+- Uses number of threads reported by the distribution to be available for syncing process. If you replace `$(nproc --all)` with a fixed number like 4, it will use that amount of threads instead.
+
+---
+
+### Build Process
+
+Android build system uses multiple build processes at single command at once. Simply put, it uses these languages in its build system alone;
+
+- Make
+
+- Java
+
+- Go
+
+- Bazel
+
+- Blueprint
+
+- Rust
+
+- Pesto
+
+- Python
+
+During the build, other functions and tools like GCC might be invoked when necessary as well.
+
+---
+
+Before starting to build, we need to ensure our device sources are adapted to Lineage's ones. This piece of command batch will do it all for you, presuming you've used the previously given manifest.
+
+```bash
+cd device/redmi/rosemary
+rename 's/kscope/lineage/' kscope*
+sed -i 's/kscope/lineage/' AndroidProducts.mk lineage_*
+```
+
+You might also need to do some manual edits like overlay adaptations and vendor configuration file path, which won't be covered here.
+
+---
+
+### Setting Up Current Session for Building Process
+
+Google gives us a nice script inside `build` folder named `envsetup.sh`. This defines and some checks prior any kinds of build process. Trying to invoke `make` without first sourcing will give you an output like this and abort;
+
+```
+build/make/core/main.mk:2: Calling make directly is no longer supported.
+build/make/core/main.mk:3: Either use 'envsetup.sh; m' or 'build/soong/soong_ui.bash --make-mode'
+build/make/core/main.mk:4: *** done.  Stop.
+```
+
+This is because Make takes advantage of functions defined by EnvSetup and behaves accordingly. So let's source it first for preparing our current shell session;
+
+```bash
+source build/envsetup.sh
+```
+
+---
+
+### Use of `lunch`
+
+`lunch` is a function to simply set up variables defined by your device sources and platform right away. It can be invoked simply by giving it as a command, it will then give you a list of "product combos" that you can choose from.
+
+---
+
+```
+$ lunch
+
+You're building on Linux
+
+Lunch menu... pick a combo:
+     1. aosp_arm-eng
+     2. aosp_arm64-eng
+     3. aosp_car_arm-userdebug
+     4. aosp_car_arm64-userdebug
+     5. aosp_car_x86-userdebug
+     6. aosp_car_x86_64-userdebug
+     7. aosp_cf_arm64_auto-userdebug
+     8. aosp_cf_arm64_phone-userdebug
+     9. aosp_cf_x86_64_foldable-userdebug
+     10. aosp_cf_x86_64_pc-userdebug
+     11. aosp_cf_x86_64_phone-userdebug
+     12. aosp_cf_x86_64_tv-userdebug
+     13. aosp_cf_x86_auto-userdebug
+     14. aosp_cf_x86_phone-userdebug
+     15. aosp_cf_x86_tv-userdebug
+     16. aosp_x86-eng
+     17. aosp_x86_64-eng
+     18. arm_krait-eng
+     19. arm_v7_v8-eng
+     20. armv8-eng
+     21. armv8_cortex_a55-eng
+     22. armv8_kryo385-eng
+     23. car_ui_portrait-userdebug
+     24. car_x86_64-userdebug
+     25. gsi_car_arm64-userdebug
+     26. gsi_car_x86_64-userdebug
+     27. lineage_rosemary-eng
+     28. lineage_rosemary-user
+     29. lineage_rosemary-userdebug
+     30. qemu_trusty_arm64-userdebug
+     31. sdk_car_arm-userdebug
+     32. sdk_car_arm64-userdebug
+     33. sdk_car_portrait_x86_64-userdebug
+     34. sdk_car_x86-userdebug
+     35. sdk_car_x86_64-userdebug
+     36. silvermont-eng
+     37. uml-userdebug
+
+Which would you like? [aosp_arm-eng]
+```
+
+---
+
+### Different Ways to Start Building
+
+Unlike all other software, AOSP has different ways to trigger building, the most commonly used are `m` and `make`. However, LineageOS also provides additional functions like `mka` and `brunch`. These all do the same and invoke `$(gettop)/build/soong/soong_ui.bash --build-mode --all-modules --dir="$(pwd)"` command for build process. What `soong_ui.bash` does is that it first compiles `soong_ui` in Go, then invokes the compiled binary with the parameter given in the end, starting the actual build process. Keep in mind though, building AOSP is pretty heavy on system resources so you might want to leave your system aside until it finishes compiling. To start building as a "flashable ZIP", just invoke `m bacon` as direct `m` will instead build just images and leave the flashing work onto you - You'll need to flash all images by yourself if there's nothing to handle that automatically, which only Google Pixel devices usually do.
+
+---
+
+### References
+
+- Required packages: [Establishing a Build Environment | Android Open Source Project](https://source.android.com/docs/setup/start/initializing)
+
+- Installation of `repo` tool: [Source Control Tools - Repo | Android Open Source Project](https://source.android.com/docs/setup/download#repo)
