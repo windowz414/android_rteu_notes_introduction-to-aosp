@@ -8,9 +8,6 @@ site_url: 'https://windowz414.com/android_rteu_notes_introduction-to-aosp/'
 site_description_en: >-
     Course notes for introducing Android Open Source Project, in short AOSP, Google's project to provide the Android source to everyone wanting to either manufacture a new device or provide updates to existing one.
 
-site_description_tr: >-
-    Android Açık Kaynak Projesini, kısaca AOSP, Google'ın yeni bir cihaz üretmek ya da mevcut olana güncelleme vermek isteyen herkese Android kaynağını sağlamak amaçlı projesi, tanıtmak için ders notları.
-
 # Repository
 repo_name: 'GitHub'
 repo_url: 'https://github.com/windowz414/android_rteu_notes_introduction-to-aosp.git'
@@ -199,20 +196,6 @@ plugins:
           name: English
           build: true
           site_name: "Introduction to AOSP"
-        tr:
-          name: Türkçe
-          build: true
-          site_name: "AOSP'ye Giriş"
-      nav_translations:
-        tr:
-          Home: 'Ana Sayfa'
-          Syllabus: 'Ders İzlencesi'
-          Course Modules: 'Ders Modülleri'
-          Introduction of AOSP and Its History: 'AOSP Tanıtımı ve Tarihçesi'
-          Sources and Compilation Steps: 'Kaynak Kodları ve Derleme Adımları'
-          License: 'Lisans'
-          Resume: 'Özgeçmiş'
-          Changelog: 'Sürüm Geçmişi'
   - git-revision-date-localized
   - minify:
       minify_html: false
@@ -261,10 +244,8 @@ extra_javascript:
 # Page tree
 nav:
   - Home: index.md
-  - Syllabus: syllabus/syllabus.md
   - Course Modules:
     - Introduction of AOSP and Its History: week-1/week-1.md
     - Sources and Compilation Steps: week-2/week-2.md
   - License: license.md
-  - Resume: resume/index.md
   - Changelog: changelog/index.md
