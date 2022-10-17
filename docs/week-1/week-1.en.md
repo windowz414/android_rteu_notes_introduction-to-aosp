@@ -46,8 +46,6 @@ math: katex
 
 <!-- _backgroundColor: aquq -->
 
-<!-- _color: orange -->
-
 <!-- paginate: false -->
 
 ## Introduction to AOSP
